@@ -23,7 +23,7 @@
         <h3>ListA</h3>
         <ul>
           <li v-for="item in listA">
-            <input type="checkbox" value="item" v-on:change="addToselectedA(item, $event)">{{ item }} </input>
+            <input type="checkbox" v-model="item.selected" value="item" v-on:change="addToselectedA(item.text, $event)">{{ item.text }} </input>
           </li>
         </ul>
       </div>
@@ -31,7 +31,7 @@
         <h3>ListB</h3>
         <ul>
           <li v-for="item in listB">
-            <input type="checkbox" value="item" v-on:change="addToselectedB(item, $event)">{{ item }} </input>
+            <input type="checkbox" v-model="item.selected" value="item" v-on:change="addToselectedB(item.text, $event)">{{ item.text }} </input>
           </li>
         </ul>
       </div>
@@ -39,7 +39,7 @@
         <h3>ListC</h3>
         <ul>
           <li v-for="item in listC1">
-            <input type="checkbox" v-on:change="addToselectedC(item, $event)">{{ item }} </input>
+            <input type="checkbox" v-model="item.selected" value="item" v-on:change="addToselectedC(item.text, $event)">{{ item.text }} </input>
           </li>
         </ul>
         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">more</button>
@@ -59,7 +59,7 @@
             <div class="modal-body">
               <ul>
                 <li v-for="item in listC2">
-                  <input type="checkbox" v-on:change="addToselectedC(item, $event)">{{ item }} </input>
+                  <input type="checkbox" v-model="item.selected" value="item" v-on:change="addToselectedC(item.text, $event)">{{ item.text }} </input>
                 </li>
               </ul>
             </div>
@@ -79,9 +79,9 @@
   new Vue({
     el: '#app',
     data: {
-      listA: ['a', 'b', 'c', 'd', 'e'],
-      listB: ['w', 'x', 'y', 'z'],
-      listC: ['q', 'w', 'e', 'r', 't', 'y'],
+      listA: [{text: 'a', selected: false}, {text: 'b', selected: false}, {text: 'c', selected: false},{text: 'd', selected: false}, {text: 'e', selected: false}],
+      listB: [{text: 'w', selected: false}, {text: 'x', selected: false}, {text: 't', selected: false},{text: 'h', selected: false}, {text: 'm', selected: false}],
+      listC: [{text: 'q', selected: false}, {text: 'w', selected: false}, {text: 'e', selected: false},{text: 'f', selected: false}, {text: 'n', selected: false}],
       selectedA: [],
       selectedB: [],
       selectedC: []
@@ -118,8 +118,11 @@
       },
       clear: function() {
         this.selectedA = [];
+        this.listA.forEach(function(item) { item.selected = false})
         this.selectedB = [];
+        this.listB.forEach(function(item) { item.selected = false})
         this.selectedC = [];
+        this.listC.forEach(function(item) { item.selected = false})
       }
     }
   });
