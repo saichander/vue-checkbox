@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Vue Todo</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- built files will be auto injected -->
+      <div v-if="selected.length > 0">
+        Selected Items: 
+        <span v-for="item in selected">{{ item }} </span>
+        <span v-show="showClearButton">
+          <button v-on:click="clear()" class='btn btn-primary'> Clear </button>
+        </span>
+      </div>
+      <div id='listA'>
+        <h3>ListA</h3>
+        <ul>
+          <li v-for="item in listA">
+            <input type="checkbox" value="item" v-on:change="addToselectedA(item, $event)">{{ item }} </input>
+          </li>
+        </ul>
+      </div>
+      <div id='listB'>
+        <h3>ListB</h3>
+        <ul>
+          <li v-for="item in listB">
+            <input type="checkbox" value="item" v-on:change="addToselectedB(item, $event)">{{ item }} </input>
+          </li>
+        </ul>
+      </div>
+      <div id='listC'>
+        <h3>ListC</h3>
+        <ul>
+          <li v-for="item in listC1">
+            <input type="checkbox" v-on:change="addToselectedC(item, $event)">{{ item }} </input>
+          </li>
+        </ul>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">more</button>
+      </div>
+
+
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+              <ul>
+                <li v-for="item in listC2">
+                  <input type="checkbox" v-on:change="addToselectedC(item, $event)">{{ item }} </input>
+                </li>
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>
+
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      listA: ['a', 'b', 'c', 'd', 'e'],
+      listB: ['w', 'x', 'y', 'z'],
+      listC: ['q', 'w', 'e', 'r', 't', 'y'],
+      selectedA: [],
+      selectedB: [],
+      selectedC: []
+    },
+    computed: {
+      showClearButton: function() {
+        return this.selectedA.length > 0 || this.selectedB.length > 0 || this.selectedC.length > 0
+      },
+      listC1: function() {
+        return this.listC.slice(0,2);
+      },
+      listC2: function() {
+        return this.listC.slice(2, this.listC.length);
+      },
+      selected: function() {
+        return this.selectedA + this.selectedB + this.selectedC
+      }
+    },
+    methods: {
+      addToselectedA: function(item, e) {
+        if (e.target.checked) {
+        this.selectedA.push(item);
+        }
+      },
+      addToselectedB: function(item, e) {
+        if (e.target.checked) {
+        this.selectedB.push(item);
+        }
+      },
+      addToselectedC: function(item, e) {
+        if (e.target.checked) {
+        this.selectedC.push(item);
+        }
+      },
+      clear: function() {
+        this.selectedA = [];
+        this.selectedB = [];
+        this.selectedC = [];
+      }
+    }
+  });
+</script>
